@@ -31,7 +31,7 @@ export const useCamera = () => {
     }
   }, [stream]);
 
-  const captureImage = useCallback((): Blob | null => {
+  const captureImage = useCallback(async (): Promise<Blob | null> => {
     if (!videoRef.current) return null;
 
     const canvas = document.createElement('canvas');
@@ -39,13 +39,12 @@ export const useCamera = () => {
     canvas.height = videoRef.current.videoHeight;
     const ctx = canvas.getContext('2d');
     if (ctx) {
-      // Draw current video frame to canvas
       ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
-      
-      // Need async handling for toBlob, for simplicity in hook returning sync, 
-      // best to convert downstream. Here returning null and doing logic asynchronously where consumed if needed.
+      return new Promise((resolve) => {
+        canvas.toBlob((blob) => resolve(blob), 'image/jpeg', 0.8);
+      });
     }
-    return null; // Return Blob downstream using async wrapper if needed
+    return null;
   }, []);
 
   return {

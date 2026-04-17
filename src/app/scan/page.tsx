@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Camera, RefreshCw, StopCircle } from 'lucide-react';
 import { useCamera } from '@/presentation/hooks/useCamera';
@@ -9,7 +9,49 @@ import { GlassButton } from '@/presentation/components/ui/GlassButton';
 
 export default function ScanPage() {
   const router = useRouter();
+  const [isProcessing, setIsProcessing] = useState(false);
   const { videoRef, startCamera, stopCamera, captureImage, stream, error } = useCamera();
+
+  const handleCapture = async () => {
+    try {
+      setIsProcessing(true);
+      const imageBlob = await captureImage();
+      if (!imageBlob) throw new Error("Hardware failed to capture frame.");
+
+      // 1. Send securely to Vision-Agent
+      const formData = new FormData();
+      formData.append('image', imageBlob, 'ycard.jpg');
+      
+      const visionRes = await fetch('/api/vision', { method: 'POST', body: formData });
+      const visionData = await visionRes.json();
+
+      // 2. Play Audio Vani Alert on Success
+      if (visionData.success || visionData.error) {
+        const audioRes = await fetch('/api/vani', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            childName: 'Patient',
+            vaccineCode: 'Scan Successful, reviewing discrepancies.',
+            urgency: 'GREEN',
+            targetLanguage: 'en'
+          })
+        });
+        const audioData = await audioRes.json();
+        if (audioData.success && audioData.data.audioBase64) {
+          const audio = new Audio("data:audio/wav;base64," + audioData.data.audioBase64);
+          await audio.play();
+        }
+        
+        // 3. Move to sync view dashboard
+        setTimeout(() => router.push('/sync'), 1000);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsProcessing(false);
+    }
+  };
 
   useEffect(() => {
     // Optionally start camera on mount, but it's better to wait for user interaction to avoid permission denied auto-popups before they are ready.
@@ -78,8 +120,8 @@ export default function ScanPage() {
           </GlassButton>
         )}
         
-        <GlassButton variant="primary" fullWidth disabled={!stream} onClick={() => captureImage()}>
-           Capture Card
+        <GlassButton variant="primary" fullWidth disabled={!stream || isProcessing} onClick={handleCapture}>
+           {isProcessing ? 'Processing AI...' : 'Capture Card'}
         </GlassButton>
         
         <GlassButton variant="secondary" fullWidth onClick={() => router.push('/sync')} style={{ display: 'block', width: '100%' }}>
