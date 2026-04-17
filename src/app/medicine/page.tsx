@@ -57,9 +57,11 @@ export default function MedicinePage() {
           Gemini Vision will identify the drug and calculate age/weight appropriate dosage with audio instructions.
         </p>
         
-        <GlassButton variant="primary" style={{ marginTop: '1.5rem', background: 'linear-gradient(135deg, rgba(147, 51, 234, 0.6), rgba(168, 85, 247, 0.8))' }}>
-          <Camera size={18} /> Open Scanner
-        </GlassButton>
+        <Link href="/scan" style={{ textDecoration: 'none', width: '100%' }}>
+          <GlassButton variant="primary" fullWidth style={{ marginTop: '1.5rem', background: 'linear-gradient(135deg, rgba(147, 51, 234, 0.6), rgba(168, 85, 247, 0.8))' }}>
+            <Camera size={18} /> Open Scanner
+          </GlassButton>
+        </Link>
       </GlassCard>
 
       <section>
