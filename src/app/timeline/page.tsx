@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { GlassCard } from '@/presentation/components/ui/GlassCard';
 import { GlassButton } from '@/presentation/components/ui/GlassButton';
@@ -13,15 +13,14 @@ const Timeline3D = dynamic(() => import('../../presentation/components/timeline/
 })
 
 export default function TimelinePage() {
+  const router = useRouter();
   return (
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '2rem', padding: '1rem 0' }}>
       
       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <Link href="/" style={{ textDecoration: 'none' }}>
-           <GlassButton variant="secondary" style={{ padding: '0.5rem', borderRadius: '50%', minWidth: '40px', minHeight: '40px' }}>
-            ←
-          </GlassButton>
-        </Link>
+        <GlassButton variant="secondary" onClick={() => router.push('/')} style={{ padding: '0.5rem', borderRadius: '50%', minWidth: '40px', minHeight: '40px' }}>
+          ←
+        </GlassButton>
         <h1 style={{ fontSize: '1.5rem', margin: 0 }}>Smart Timeline</h1>
       </div>
 

@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Pill, Scan, Volume2, Camera } from 'lucide-react';
 import { useState } from 'react';
@@ -8,6 +9,7 @@ import { GlassCard } from '@/presentation/components/ui/GlassCard';
 import { GlassButton } from '@/presentation/components/ui/GlassButton';
 
 export default function MedicinePage() {
+  const router = useRouter();
   const { language } = useLanguage();
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -40,11 +42,9 @@ export default function MedicinePage() {
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '2rem', padding: '1rem 0' }}>
       
       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <Link href="/" style={{ textDecoration: 'none' }}>
-           <GlassButton variant="secondary" style={{ padding: '0.5rem', borderRadius: '50%', minWidth: '40px', minHeight: '40px' }}>
-            ←
-          </GlassButton>
-        </Link>
+        <GlassButton variant="secondary" onClick={() => router.push('/')} style={{ padding: '0.5rem', borderRadius: '50%', minWidth: '40px', minHeight: '40px' }}>
+          ←
+        </GlassButton>
         <h1 style={{ fontSize: '1.5rem', margin: 0 }}>Drug-Dose Safety</h1>
       </div>
 
@@ -57,11 +57,9 @@ export default function MedicinePage() {
           Gemini Vision will identify the drug and calculate age/weight appropriate dosage with audio instructions.
         </p>
         
-        <Link href="/scan" style={{ textDecoration: 'none', width: '100%' }}>
-          <GlassButton variant="primary" fullWidth style={{ marginTop: '1.5rem', background: 'linear-gradient(135deg, rgba(147, 51, 234, 0.6), rgba(168, 85, 247, 0.8))' }}>
-            <Camera size={18} /> Open Scanner
-          </GlassButton>
-        </Link>
+        <GlassButton variant="primary" fullWidth onClick={() => router.push('/scan')} style={{ marginTop: '1.5rem', background: 'linear-gradient(135deg, rgba(147, 51, 234, 0.6), rgba(168, 85, 247, 0.8))' }}>
+          <Camera size={18} /> Open Scanner
+        </GlassButton>
       </GlassCard>
 
       <section>

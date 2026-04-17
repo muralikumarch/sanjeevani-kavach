@@ -1,24 +1,23 @@
 'use client';
 
 import React, { useState } from 'react';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Camera, CheckCircle, AlertTriangle } from 'lucide-react';
 import { GlassCard } from '@/presentation/components/ui/GlassCard';
 import { GlassButton } from '@/presentation/components/ui/GlassButton';
 import { StatusBadge } from '@/presentation/components/ui/StatusBadge';
 
 export default function SyncPage() {
+  const router = useRouter();
   const [isApproved, setIsApproved] = useState(false);
 
   return (
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '2rem', padding: '1rem 0' }}>
       
       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <Link href="/" style={{ textDecoration: 'none' }}>
-          <GlassButton variant="secondary" style={{ padding: '0.5rem', borderRadius: '50%', minWidth: '40px', minHeight: '40px' }}>
-            ←
-          </GlassButton>
-        </Link>
+        <GlassButton variant="secondary" onClick={() => router.push('/')} style={{ padding: '0.5rem', borderRadius: '50%', minWidth: '40px', minHeight: '40px' }}>
+          ←
+        </GlassButton>
         <h1 style={{ fontSize: '1.5rem', margin: 0 }}>Sync Immunization Card</h1>
       </div>
 
@@ -30,11 +29,9 @@ export default function SyncPage() {
         <p style={{ textAlign: 'center', maxWidth: '300px', opacity: 0.8, fontSize: '0.9rem' }}>
           Align the handwritten card within the frame. The Vision-Agent will automatically blur any PII before cloud processing.
         </p>
-        <Link href="/scan" style={{ textDecoration: 'none', display: 'inline-block', marginTop: '1.5rem' }}>
-          <GlassButton variant="primary">
-            <Camera size={18} /> Open Camera
-          </GlassButton>
-        </Link>
+        <GlassButton variant="primary" onClick={() => router.push('/scan')} style={{ marginTop: '1.5rem' }}>
+          <Camera size={18} /> Open Camera
+        </GlassButton>
       </GlassCard>
 
       <section>

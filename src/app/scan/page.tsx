@@ -1,13 +1,14 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Camera, RefreshCw, StopCircle } from 'lucide-react';
 import { useCamera } from '@/presentation/hooks/useCamera';
 import { GlassCard } from '@/presentation/components/ui/GlassCard';
 import { GlassButton } from '@/presentation/components/ui/GlassButton';
 
 export default function ScanPage() {
+  const router = useRouter();
   const { videoRef, startCamera, stopCamera, captureImage, stream, error } = useCamera();
 
   useEffect(() => {
@@ -19,11 +20,9 @@ export default function ScanPage() {
   return (
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '2rem', padding: '1rem 0' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <Link href="/" style={{ textDecoration: 'none' }}>
-          <GlassButton variant="secondary" style={{ padding: '0.5rem', borderRadius: '50%', minWidth: '40px', minHeight: '40px' }}>
-            ←
-          </GlassButton>
-        </Link>
+        <GlassButton variant="secondary" onClick={() => router.push('/')} style={{ padding: '0.5rem', borderRadius: '50%', minWidth: '40px', minHeight: '40px' }}>
+          ←
+        </GlassButton>
         <h1 style={{ fontSize: '1.5rem', margin: 0 }}>Direct Scan</h1>
       </div>
 
@@ -83,11 +82,9 @@ export default function ScanPage() {
            Capture Card
         </GlassButton>
         
-        <Link href="/sync" style={{ flex: 1, textDecoration: 'none', display: 'block', width: '100%' }}>
-          <GlassButton variant="secondary" fullWidth>
-             <RefreshCw size={18} /> Skip to Sync
-          </GlassButton>
-        </Link>
+        <GlassButton variant="secondary" fullWidth onClick={() => router.push('/sync')} style={{ display: 'block', width: '100%' }}>
+           <RefreshCw size={18} /> Skip to Sync
+        </GlassButton>
       </div>
     </div>
   );
