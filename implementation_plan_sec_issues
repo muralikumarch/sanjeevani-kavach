@@ -1,0 +1,54 @@
+# Pre-Deployment Excellence Plan (The 100% Checklist)
+
+This plan outlines the specific technical implementations required to elevate Sanjeevani-Kavach to 100% compliance across all 6 requested pillars before initiating Google Cloud deployment.
+
+---
+
+## 1. Code Quality
+**Goal**: Enforce strict type safety and consistent formatting.
+- **[NEW] `.eslintrc.json`**: Configure strict Next.js and `@typescript-eslint` rules specifically targeting `no-explicit-any`.
+- **[MODIFY] `src/infrastructure/firebase/firestore.ts`**: Replace `data: any` and `records: any[]` with precise TypeScript interfaces mapping to the NIS schema.
+- **[MODIFY] `src/presentation/hooks/useCamera.ts`**: Fix `catch (err: any)` by applying robust `unknown` type guarding.
+
+## 2. Security
+**Goal**: Harden the application against data exfiltration, especially considering PII (Personally Identifiable Information) handling.
+- **[MODIFY] `next.config.mjs`**: Inject strict HTTP Security Headers (Content-Security-Policy, X-Frame-Options: DENY, X-Content-Type-Options: nosniff).
+- **[NEW] `firestore.rules` & `storage.rules`**: Implement Firebase Security Rules enforcing that only authenticated phone-auth users can read/write their specific `childId` payloads, strictly isolating rural health data.
+- **[NEW] `.env.example`**: Standardize environment variables to ensure secrets aren't accidentally exposed during handoff.
+
+## 3. Efficiency
+**Goal**: Ensure maximum offline reliability and minimized load times for "Data Dark" bandwidth constraints.
+- **[MODIFY] `next.config.mjs` & `package.json`**: Install and configure `next-pwa` to auto-generate a robust `sw.js` (Service Worker). While Firestore handles data caching, `next-pwa` will eagerly cache the React/HTML/CSS assets so the UI loads instantly even with zero bars of connection.
+- **[MODIFY] Dynamic Imports**: Ensure heavy libraries (like `three.js`) are only loaded on demand.
+
+## 4. Testing
+**Goal**: Establish a baseline automated testing framework.
+- **[NEW] Vitest Configuration**: Add `vitest` and `@testing-library/react` to `devDependencies`.
+- **[NEW] `vitest.config.ts`**: Configure the test environment.
+- **[NEW] `__tests__/protocol-agent.test.ts`**: Implement unit tests for the core logic (e.g., verifying the Catch-up logic correctly calculates missed vaccine intervals without flakiness).
+- **[NEW] `__tests__/ui.test.tsx`**: Add component tests for the `GlassButton` and `StatusBadge`.
+
+## 5. Accessibility (WCAG 2.1 AA Compliance)
+**Goal**: Ensure rural ASHA workers, regardless of ability or device input method, can navigate the app.
+- **[MODIFY] `src/presentation/components/ui/GlassButton.tsx`**: Add ARIA roles, `aria-disabled` tracking, and distinct `focus-visible` styling (glassmorphism often ruins keyboard-focus rings).
+- **[MODIFY] `src/app/scan/page.tsx`**: Add proper `aria-labels` to the `<video>` elements and ensure the viewfinder overlay doesn't break screen readers.
+
+## 6. Google Services Safeties
+**Goal**: Protect billing limits and handle API quotas gracefully.
+- **[MODIFY] `src/infrastructure/ai/vision-agent.ts`**: Wrap the Gemini API SDK calls with a strict timeout parameter and retry mechanism to prevent hanging promises if the connection drops mid-upload.
+- **[MODIFY] `src/infrastructure/gcp/client.ts`**: Add defensive fallbacks to the Translation/TTS API calls to gracefully return default UI strings if standard Google Quotas are temporarily exceeded.
+
+---
+
+## User Review Required
+
+> [!WARNING]
+> Implementing **Testing (Vitest)** and **Efficiency (next-pwa)** will add several new dependencies to your `package.json`. It will also slightly alter how the development server runs.
+
+> [!IMPORTANT]
+> The **Firebase Security Rules** we create here will need to be deployed to your actual Firebase project using `firebase deploy --only firestore:rules,storage`.
+
+## Open Questions
+
+1. For **Testing**, is `Vitest` acceptable as the test runner, or do you have a strict requirement for `Jest` or End-to-End frameworks like `Cypress`?
+2. Shall I proceed to automatically install the new dependencies (`next-pwa`, `vitest`, etc.) executing terminal commands on your behalf during the implementation phase?

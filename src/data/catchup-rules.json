@@ -1,0 +1,29 @@
+{
+  "rules_reference": "MoHFW Universal Immunization Programme Catch-up Strategy 2026",
+  "vaccines": {
+    "PENTA": {
+      "max_age_days": 365,
+      "min_interval_days": 28,
+      "doses_required": 3,
+      "contraindications": ["Anaphylaxis to previous dose", "Encephalopathy within 7 days"]
+    },
+    "OPV": {
+      "max_age_days": 1825,
+      "min_interval_days": 28,
+      "doses_required": 3,
+      "contraindications": ["Immune deficiency"]
+    },
+    "MR": {
+      "max_age_days": 1825,
+      "min_interval_days": 28,
+      "doses_required": 2,
+      "contraindications": ["Severe allergic reaction", "Pregnancy", "Immunodeficiency"]
+    },
+    "BCG": {
+      "max_age_days": 365,
+      "min_interval_days": 0,
+      "doses_required": 1,
+      "contraindications": ["HIV positive newborn", "Immunodeficiency"]
+    }
+  }
+}

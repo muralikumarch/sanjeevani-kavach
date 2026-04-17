@@ -1,0 +1,92 @@
+{
+  "schema_version": "NIS-2026-v1.0",
+  "effective_date": "2026-01-01",
+  "source": "MoHFW India — Universal Immunization Programme",
+  "schedule": [
+    {
+      "age_group": "At Birth",
+      "age_days_min": 0,
+      "age_days_max": 28,
+      "vaccines": [
+        { "code": "BCG", "name": "BCG", "full_name": "Bacillus Calmette-Guérin", "route": "Intradermal", "site": "Left upper arm", "dose": "0.05 mL (< 1 month) / 0.1 mL (≥ 1 month)" },
+        { "code": "HEP-B-0", "name": "Hepatitis B (Birth Dose)", "full_name": "Hepatitis B Vaccine", "route": "Intramuscular", "site": "Anterolateral thigh", "dose": "0.5 mL" },
+        { "code": "OPV-0", "name": "OPV (Zero Dose)", "full_name": "Oral Polio Vaccine", "route": "Oral", "site": "Mouth", "dose": "2 drops" }
+      ]
+    },
+    {
+      "age_group": "6 Weeks",
+      "age_days_min": 42,
+      "age_days_max": 56,
+      "vaccines": [
+        { "code": "OPV-1", "name": "OPV-1", "full_name": "Oral Polio Vaccine Dose 1", "route": "Oral", "site": "Mouth", "dose": "2 drops" },
+        { "code": "PENTA-1", "name": "Pentavalent-1", "full_name": "Pentavalent Vaccine Dose 1 (DPT, Hep B, Hib)", "route": "Intramuscular", "site": "Anterolateral thigh", "dose": "0.5 mL" },
+        { "code": "RVV-1", "name": "Rotavirus-1", "full_name": "Rotavirus Vaccine Dose 1", "route": "Oral", "site": "Mouth", "dose": "5 drops or 2.5ml" },
+        { "code": "FIPV-1", "name": "fIPV-1", "full_name": "Fractional Inactivated Poliovirus Vaccine Dose 1", "route": "Intradermal", "site": "Right upper arm", "dose": "0.1 mL" },
+        { "code": "PCV-1", "name": "PCV-1", "full_name": "Pneumococcal Conjugate Vaccine Dose 1", "route": "Intramuscular", "site": "Anterolateral thigh", "dose": "0.5 mL" }
+      ]
+    },
+    {
+      "age_group": "10 Weeks",
+      "age_days_min": 70,
+      "age_days_max": 84,
+      "vaccines": [
+        { "code": "OPV-2", "name": "OPV-2", "full_name": "Oral Polio Vaccine Dose 2", "route": "Oral", "site": "Mouth", "dose": "2 drops" },
+        { "code": "PENTA-2", "name": "Pentavalent-2", "full_name": "Pentavalent Vaccine Dose 2", "route": "Intramuscular", "site": "Anterolateral thigh", "dose": "0.5 mL" },
+        { "code": "RVV-2", "name": "Rotavirus-2", "full_name": "Rotavirus Vaccine Dose 2", "route": "Oral", "site": "Mouth", "dose": "5 drops" }
+      ]
+    },
+    {
+      "age_group": "14 Weeks",
+      "age_days_min": 98,
+      "age_days_max": 112,
+      "vaccines": [
+        { "code": "OPV-3", "name": "OPV-3", "full_name": "Oral Polio Vaccine Dose 3", "route": "Oral", "site": "Mouth", "dose": "2 drops" },
+        { "code": "PENTA-3", "name": "Pentavalent-3", "full_name": "Pentavalent Vaccine Dose 3", "route": "Intramuscular", "site": "Anterolateral thigh", "dose": "0.5 mL" },
+        { "code": "RVV-3", "name": "Rotavirus-3", "full_name": "Rotavirus Vaccine Dose 3", "route": "Oral", "site": "Mouth", "dose": "5 drops" },
+        { "code": "FIPV-2", "name": "fIPV-2", "full_name": "Fractional Inactivated Poliovirus Vaccine Dose 2", "route": "Intradermal", "site": "Right upper arm", "dose": "0.1 mL" },
+        { "code": "PCV-2", "name": "PCV-2", "full_name": "Pneumococcal Conjugate Vaccine Dose 2", "route": "Intramuscular", "site": "Anterolateral thigh", "dose": "0.5 mL" }
+      ]
+    },
+    {
+      "age_group": "9-12 Months",
+      "age_days_min": 270,
+      "age_days_max": 365,
+      "vaccines": [
+        { "code": "MR-1", "name": "MR-1", "full_name": "Measles and Rubella Vaccine Dose 1", "route": "Subcutaneous", "site": "Right upper arm", "dose": "0.5 mL" },
+        { "code": "JE-1", "name": "JE-1", "full_name": "Japanese Encephalitis Vaccine Dose 1", "route": "Subcutaneous", "site": "Left upper arm", "dose": "0.5 mL" },
+        { "code": "PCV-B", "name": "PCV-Booster", "full_name": "Pneumococcal Conjugate Vaccine Booster", "route": "Intramuscular", "site": "Anterolateral thigh", "dose": "0.5 mL" },
+        { "code": "FIPV-3", "name": "fIPV-3", "full_name": "Fractional Inactivated Poliovirus Vaccine Dose 3", "route": "Intradermal", "site": "Right upper arm", "dose": "0.1 mL" },
+        { "code": "VITA-1", "name": "Vitamin A-1", "full_name": "Vitamin A 1st Dose", "route": "Oral", "site": "Mouth", "dose": "1 ml (1 lakh IU)" }
+      ]
+    },
+    {
+      "age_group": "16-24 Months",
+      "age_days_min": 480,
+      "age_days_max": 730,
+      "vaccines": [
+        { "code": "MR-2", "name": "MR-2", "full_name": "Measles and Rubella Vaccine Dose 2", "route": "Subcutaneous", "site": "Right upper arm", "dose": "0.5 mL" },
+        { "code": "JE-2", "name": "JE-2", "full_name": "Japanese Encephalitis Vaccine Dose 2", "route": "Subcutaneous", "site": "Left upper arm", "dose": "0.5 mL" },
+        { "code": "DPT-B1", "name": "DPT Booster-1", "full_name": "Diphtheria, Pertussis, and Tetanus Booster 1", "route": "Intramuscular", "site": "Anterolateral thigh", "dose": "0.5 mL" },
+        { "code": "OPV-B", "name": "OPV Booster", "full_name": "Oral Polio Vaccine Booster", "route": "Oral", "site": "Mouth", "dose": "2 drops" },
+        { "code": "VITA-2TO9", "name": "Vitamin A (2nd to 9th dose)", "full_name": "Vitamin A 2nd to 9th Dose", "route": "Oral", "site": "Mouth", "dose": "2 ml (2 lakh IU)" }
+      ]
+    },
+    {
+      "age_group": "5-6 Years",
+      "age_days_min": 1825,
+      "age_days_max": 2190,
+      "vaccines": [
+        { "code": "DPT-B2", "name": "DPT Booster-2", "full_name": "Diphtheria, Pertussis, and Tetanus Booster 2", "route": "Intramuscular", "site": "Upper arm", "dose": "0.5 mL" }
+      ]
+    },
+    {
+      "age_group": "10 & 16 Years",
+      "age_days_min": 3650,
+      "age_days_max": 5840,
+      "vaccines": [
+        { "code": "TD-10", "name": "Td-10", "full_name": "Tetanus and adult Diphtheria (10 years)", "route": "Intramuscular", "site": "Upper arm", "dose": "0.5 mL" },
+        { "code": "TD-16", "name": "Td-16", "full_name": "Tetanus and adult Diphtheria (16 years)", "route": "Intramuscular", "site": "Upper arm", "dose": "0.5 mL" }
+      ]
+    }
+  ]
+}

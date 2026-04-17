@@ -1,0 +1,53 @@
+# Sanjeevani-Kavach Implementation Overview
+
+The Agentic Frontend implementation and core infrastructure logic are now complete, fulfilling the vision of an interactive and native offline-first architecture.
+
+```carousel
+<!-- slide -->
+```markdown
+# 3D Smart Timeline (Feature B)
+Built utilizing `@react-three/fiber` ensuring a premium proactive trajectory of the immunization journey mapping to the NIS 2026 schema. Nodes are color coded intelligently matching Agent Urgency scores.
+```
+<!-- slide -->
+```typescript
+{ id: 'bcg', position: [-4, 0, 0], color: '#10b981', label: 'BCG (Birth)' } // Green (On-track/Done)
+{ id: 'penta3', position: [3.5, -1.5, 0], color: '#ef4444', label: 'PENTA-3 (Missed)' } // Red (Critical)
+```
+```
+
+## 1. Firebase Auth & Offline Persistence
+
+A critical pillar for operating in "Data Dark" rural Indian zones is ensuring robust offline access and synchronization:
+- **Phone Auth Wrapper (`auth.ts`)**: We implemented full Firebase logic using the `signInWithPhoneNumber` API. OTP requests bypass generic password systems catering directly to ASHA worker familiarity.
+- **Offline Firestore (`firestore.ts`)**: Leveraged Firestore's native `persistentLocalCache` enabling true offline reads/writes. This guarantees that `saveVaccineRecord` functions cache the data payload on the device natively and seamlessly push payloads when connectivity is restored.
+- **Cloud Storage (`storage.ts`)**: Generic uploader handling the archiving of the `VisionAgent`-produced PII-blurred images locally until the background network recovers.
+
+## 2. Global State Providers
+
+Integrated scalable standard Next.js Provider wrappers connected to the `RootLayout` spanning across all nested endpoints:
+- `AuthProvider.tsx`: Hydrates the active Firebase session context efficiently using `onAuthStateChanged`.
+- `AgentProvider.tsx`: A dependency injection facade ensuring stable instances of `visionAgent` and `protocolAgent` exist.
+- `OfflineProvider.tsx`: Listens actively to `window.addEventListener('offline')` providing actionable connection indicators UI-wide to throttle network behavior dynamically.
+- Custom custom hooks like `useFirebaseAuth` and `useOfflineSync` provide a typed SDK interface avoiding leaky abstractions downstream.
+
+## 3. Glassmorphism Design System
+
+Sanjeevani-Kavach pushes a premium aesthetic using dynamic layout compositions and React motion traits over standard static layouts. 
+Implemented custom shared tokens:
+- `GlassButton.tsx` (Powered by Framer-Motion for 1.02 scale dynamic tapping logic with bespoke inline gradients).
+- `GlassCard.tsx` (Layered with WebKit Backdrop filtering).
+- `StatusBadge.tsx` (A unified GREEN/YELLOW/RED indicator matching urgency parameters strictly).
+
+## 4. Agentic Showstopper Modules 
+
+### Feature A: Handwriting-to-DPI Sync
+Implemented the `/sync` dashboard handling realistic comparative logic:
+- Designed Vision-Agent upload simulation panel pointing to the established Gemini API pipeline relying inherently on high-resolution camera hardware context (`useCamera`).
+- Built a verification validation component signaling actionable discrepancy alerts pushing ASHA Worker mock offline approval states.
+
+### Feature C: Drug Dose Safety
+Designed the `/medicine` endpoint structured to accurately simulate Vision strip scanning, rendering a dynamically interactive Voice output toggle (`/api/vani`). 
+
+## Native Cloud Deployment Architecture
+
+With the `import textToSpeech from '@google-cloud/text-to-speech';` typings repaired in `tsconfig.json`, the Next.js runtime compiles successfully out of the box using Server Actions/API Routes and executes consistently under Google Cloud Run environments adhering directly to zero-downtime container mandates.

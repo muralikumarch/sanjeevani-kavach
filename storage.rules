@@ -1,0 +1,12 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /vaccine_cards/{childId}/{fileName} {
+      allow read: if request.auth != null;
+      // Allow upload only if the payload size is < 10MB and the user is authenticated
+      allow write: if request.auth != null 
+                   && request.resource.size < 10 * 1024 * 1024
+                   && request.resource.contentType.matches('image/.*');
+    }
+  }
+}
