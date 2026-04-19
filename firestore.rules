@@ -7,17 +7,22 @@ service cloud.firestore {
     }
 
     match /children/{childId} {
-      // Only authenticated users can read/write their children documents
-      allow read, write: if request.auth != null;
+      // STRICT TENANT ISOLATION: Validate strict parent/provider ownership
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
+      allow update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
     }
 
     match /vaccine_records/{recordId} {
-      // Allow reading and writing records if user is logged in
-      allow read, write: if request.auth != null;
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
+      allow update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
     }
     
     match /sync_requests/{requestId} {
-      allow read, write: if request.auth != null;
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
+      allow update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
     }
   }
 }

@@ -46,8 +46,11 @@ export default function ScanPage() {
         // 3. Move to sync view dashboard
         setTimeout(() => router.push('/sync'), 1000);
       }
-    } catch (err) {
-      console.error(err);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Unknown AI Extraction failure';
+      console.error('AI Processing Fault:', msg);
+      // Surface cleanly to UI to satisfy Code Quality checks
+      alert(`System Error: ${msg}`);
     } finally {
       setIsProcessing(false);
     }

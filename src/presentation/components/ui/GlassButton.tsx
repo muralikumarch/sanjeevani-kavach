@@ -23,6 +23,7 @@ export const GlassButton: React.FC<GlassButtonProps> = ({
       whileTap={{ scale: disabled ? 1 : 0.98 }}
       whileFocus={{ scale: 1.02, outline: '2px solid #a855f7', outlineOffset: '2px' }}
       aria-disabled={disabled}
+      disabled={disabled}
       role="button"
       style={{
         width: fullWidth ? '100%' : 'auto',

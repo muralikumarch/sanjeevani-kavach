@@ -1,7 +1,6 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { Pill, Scan, Volume2, Camera } from 'lucide-react';
 import { useState } from 'react';
 import { useLanguage } from '../providers/LanguageProvider';
@@ -32,8 +31,9 @@ export default function MedicinePage() {
         audio.play();
         console.info(`Playing audio nudge in ${language}...`);
       }
-    } catch(err) {
-      console.error(err);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Audio playback failed';
+      console.error('Vani playback error:', message);
     }
     setTimeout(() => setIsPlaying(false), 2000);
   };

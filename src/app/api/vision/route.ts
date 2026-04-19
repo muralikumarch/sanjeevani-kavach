@@ -1,15 +1,20 @@
 import { NextResponse } from 'next/server';
 import { visionAgent } from '../../../infrastructure/ai/vision-agent';
 import { blurPII } from '../../../infrastructure/pii/blur-engine';
+import { validateImageUpload } from '../../../lib/validation';
 
+/**
+ * POST /api/vision
+ * Processes a Yellow Card image through the PII blur engine and Vision-Agent.
+ * Returns structured vaccine extraction data with confidence scores.
+ */
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();
-    const file = formData.get('image') as File | null;
+    const rawFile = formData.get('image') as File | null;
 
-    if (!file) {
-      return NextResponse.json({ error: 'No image uploaded' }, { status: 400 });
-    }
+    // Strict input validation: check presence, size, and MIME type
+    const file = validateImageUpload(rawFile);
 
     // 1. Source Anonymity Flow: Blur PII before AI processing
     const anonymizedImage = await blurPII(file);
@@ -20,8 +25,12 @@ export async function POST(request: Request) {
     // 3. Return structured schema
     return NextResponse.json({ success: true, data: extractionResult });
 
-  } catch (error) {
-    console.error('Vision API Error:', error);
-    return NextResponse.json({ error: 'Failed to process image' }, { status: 500 });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Failed to process image';
+    console.error('Vision API Error:', message);
+    return NextResponse.json(
+      { error: message },
+      { status: message.includes('Invalid') || message.includes('No image') ? 400 : 500 }
+    );
   }
 }
