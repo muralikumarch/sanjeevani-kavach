@@ -30,7 +30,7 @@ export default function MedicinePage() {
       if (data.success && data.data.audioBase64) {
         const audio = new Audio("data:audio/wav;base64," + data.data.audioBase64);
         audio.play();
-        console.log(`Playing audio nudge in ${language}...`);
+        console.info(`Playing audio nudge in ${language}...`);
       }
     } catch(err) {
       console.error(err);

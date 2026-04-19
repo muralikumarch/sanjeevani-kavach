@@ -1,0 +1,47 @@
+# The Grind Behind the AI: Engineering Sanjeevani-Kavach for PromptWars India 2026
+
+Building a standard web application is one thing; forging an offline-first "Agentic AI" network designed to scan, diagnose, and speak medical translations in extremely constrained rural environments is another universe entirely.
+
+For my submission to **PromptWars India 2026**, I built **Sanjeevani-Kavach**. It’s an AI-driven Progressive Web App (PWA) tailored for India’s Universal Immunization Programme. It uses Gemini 2.5 Flash to automatically intercept and read handwritten paper "Yellow Cards," maps missing dosages via a Clinical RAG pipeline, and outputs empathetic Audio Nudges to ASHA workers in over 12 regional dialects natively out of their smartphone speakers.
+
+While the final polished deployment worked like magic, the journey to get there was paved with brutal deployment traps, IAM architecture blocks, and relentless dependency debugging. 
+
+Here is a raw, technical look into the exact roadblocks I hit during this hackathon, and exactly how I conquered them.
+
+---
+
+## Roadblock 1: The Google Cloud Buildpack "Status 51" Crash
+**The Problem:** The application UI relies heavily on Next.js 16 merged with React Three Fiber (for 3D timelines) and Framer Motion. Locally, this worked incredibly well. However, when attempting a direct standard deployment via `gcloud run deploy --source .`, Google’s automated Cloud Buildpacks threw a catastrophic `exit status: 51` error right at step one.
+**The Root Cause:** Google Cloud Build sequentially runs a rigid `npm install`. Because modern libraries strictly enforce `peerDependencies` mapped to older stable React 18 versions instead of the bleeding-edge React 19 Next.js configuration I was running, the Google server correctly crashed to protect the build.
+**The Solution:** I had to strip control away from Google’s automated Buildpack inference. I dropped a custom `Dockerfile` directly into the root folder using `cat << 'EOF' > Dockerfile`, and specifically forced a new `.npmrc` file with `legacy-peer-deps=true`. The moment I explicitly fed `gcloud` the Dockerfile, it completely ignored the Buildpacks, compiled cleanly, and launched the container!
+
+## Roadblock 2: The Silent Translation API `403` Panic
+**The Problem:** I designed the **Vani-Agent** to seamlessly hook into the `api/vani` backend to convert raw clinical text into Hindi or Telugu "Neural2" audio via Google Cloud Translation and Text-to-Speech. But upon testing the scanner, the terminal exploded into a massive red wall of `403: accessNotConfigured` logs.
+**The Root Cause:** By default, brand-new Google Cloud projects fiercely disable heavy machine learning APIs to prevent accidental billing triggers. Despite logging into Firebase and securely injecting my Gemini keys, the fundamental backend GCP project did not have explicit permissions to invoke native Cloud Translation APIs.
+**The Solution:** I navigated directly to the hidden `console.developers.google.com` dashboard for my specific Project ID and manually flipped the activation switches for both the Translation API and Text-to-Speech Engine. Because the Next.js API route was fully wrapped in a defensive `try...catch` block handling a resilient fallback mechanism, the UI never crashed during this outage. Once the servers synchronized a few minutes later, the audio fired perfectly!
+
+## Roadblock 3: The "Overconstrained" Android Camera Trap
+**The Problem:** The app’s primary feature is standard camera scanning. It worked beautifully on my laptop browser, but the second I loaded the live PWA on my Android mobile phone's Chrome browser, the camera flat-out refused to initialize. 
+**The Root Cause:** In `useCamera.ts`, I had rigidly constrained the hook configuration to exactly `facingMode: 'environment'` to forcefully pull the back lens. However, many modern mobile browsers possess strange multi-lens array APIs. If the browser couldn't instantly map the singular 'environment' string without ambiguity, it purposefully panicked and threw a hard `OverconstrainedError`, denying permissions entirely.
+**The Solution:** I altered the hook to an incredibly subtle but powerful config: `facingMode: { ideal: 'environment' }`. This acts as a soft constraint, commanding the phone to "attempt the back camera, but if you get confused, just initialize ANY lens." Instantly, the hardware scanner booted up.
+
+## Roadblock 4: Missing Functions and the Firebase Blaze Plan
+**The Problem:** With the Python Microservice and Next.js Frontend successfully live, I only had to push the background synchronization webhooks inside `/cloud-functions`. Executing the CLI command `firebase-tools deploy --only functions` yielded a terrifying "Cannot understand what targets to deploy" error. 
+**The Root Cause & Solution:** Simple mapping oversight! I was sitting down inside the `cloud-functions` sub-directory itself instead of the project root! I navigated up to the root, utilized my script to inject `"functions": { "source": "cloud-functions" }` securely into the `firebase.json` file, and ran the command. 
+
+Following this, Firebase rightly prompted me with a blocker stating my project required the "Blaze" (Pay-as-you-go) plan. Because V2 Cloud Functions inherently utilize underlying Google Cloud Run architectural components which strictly require linked billing, I seamlessly connected the exact same Cloud Billing profile I built for my main UI servers, costing me $0.00 since it falls wildly under the massive 2 million monthly invocation free tier!
+
+---
+
+## The Takeaway
+
+Hackathons aren't just about drafting neat ideas—they force you into the harsh realities of DevOps architecture, IAM security bindings, rigorous device cross-compatibility, and relentless asynchronous API chaining.
+
+To successfully tie Gemini Vision scanning natively into a Google Cloud TTS endpoint while securing all of it inside an offline-first PWA architecture was infinitely rewarding. Seeing the app actually scan handwriting and speak the dosage out loud to me on my phone was purely electrifying.
+
+Huge shoutout to Google Cloud and the PromptWars India 2026 organizers. Let the agents loose!
+
+💻 **Explore the Architecture on GitHub:** [Your Repository URL]
+🔗 **Test the Live PWA:** [Your Cloud Run URL]
+
+#PromptWarsIndia2026 #GoogleCloud #GeminiAI #DevOps #NextJS #FrontendEngineering #OpenSource #TechForGood

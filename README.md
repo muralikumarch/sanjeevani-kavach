@@ -1,7 +1,20 @@
 # Sanjeevani-Kavach 🛡️
 **PromptWars India 2026 Final Submission**
 
-Sanjeevani-Kavach is an offline-first, multi-agent Progressive Web App (PWA) designed to fundamentally modernize India's Universal Immunization Programme at the extreme edge. It replaces manual data entry with intelligent, multilingual "Agentic" workflows tailored for frontline ASHA workers operating in low-connectivity rural zones.
+Sanjeevani-Kavach is an offline-first, multi-agent Progressive Web App (PWA) designed to fundamentally modernize Digital Public Infrastructure at the extreme edge. 
+
+---
+
+## Problem Statement
+**Target:** Maternal and Child Tracking & Universal Immunization Programme (UIP).
+
+India’s Universal Immunization Programme serves millions in rural communities where the backbone of tracking relies heavily on handwritten paper "Yellow Cards". Currently, these systems face severe limitations:
+1. Illegible handwriting and manual entry lead to disconnected, lost records.
+2. Frontline ASHA Workers operate in "Data-Dark Zones" with zero internet connectivity.
+3. Complex clinical catch-up schedules are printed in English, ignoring 12+ critical regional dialects.
+
+**The Solution:**
+Sanjeevani-Kavach natively solves this by acting as a DPI Integration layer. It replaces manual data entry with an intelligent, multilingual "Agentic" workflow tailored directly for Frontline ASHA Workers operating on low-end devices.
 
 ---
 

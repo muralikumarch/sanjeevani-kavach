@@ -12,7 +12,7 @@ export class UWINService {
    * Simulates fetching a child's digital immunization record.
    */
   async getChildRecords(beneficiaryId: string): Promise<Record<string, UWINRecord>> {
-    console.log(`FETCHING U-WIN RECORDS FOR ID: ${beneficiaryId}`);
+    console.info(`FETCHING U-WIN RECORDS FOR ID: ${beneficiaryId}`);
     
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 800));
