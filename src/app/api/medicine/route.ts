@@ -1,13 +1,21 @@
 import { NextResponse } from 'next/server';
 import { getVisionModel, fileToGenerativePart } from '../../../infrastructure/ai/gemini-client';
 import { MEDICINE_ID_SYSTEM_PROMPT, MEDICINE_ID_USER_PROMPT } from '../../../infrastructure/ai/prompts/medicine-id';
+import { verifyAuthToken } from '../../../infrastructure/auth/verifyToken';
 
 export async function POST(request: Request) {
   try {
+    try {
+      await verifyAuthToken(request);
+    } catch (authError) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const formData = await request.formData();
     const file = formData.get('image') as File | null;
     const childAge = formData.get('childAge') as string || 'Unknown';
     const childWeight = formData.get('childWeight') as string || 'Unknown';
+
 
     if (!file) {
       return NextResponse.json({ error: 'No image uploaded' }, { status: 400 });
